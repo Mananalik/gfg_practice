@@ -49,27 +49,23 @@ public class Main {
 // User function Template for Java
 class Solution {
     int minCost(int[] height) {
-        // code here
-        int n = height.length-1;
-        int dp[] = new int[height.length];
-        for(int i=0;i<height.length;i++){
-            dp[i]=-1;
-        }
-        return func(n,height,dp);
+       int n = height.length;
+       int dp[] =  new int[n+1];
+       for(int i=0;i<n;i++){
+           dp[i]=-1;
+       }
+       return func(n-1,height,dp);
     }
-    static int func(int index ,int arr[], int dp[]){
-        if(index==0){
-            return 0;
+    static int func(int n, int [] arr, int[] dp){
+        if(n==0) return 0;
+        if(dp[n]!=-1) return dp[n];
+        int pick1 = Integer.MAX_VALUE;
+        int pick2 = Integer.MAX_VALUE;
+        pick1 = func(n-1,arr,dp)+Math.abs(arr[n]-arr[n-1]);
+        if(n>=2){
+            pick2 = func(n-2,arr,dp)+Math.abs(arr[n]-arr[n-2]);
         }
-        if(dp[index]!=-1) return dp[index];
-        int cost1 = Integer.MAX_VALUE;
-        int cost2 = Integer.MAX_VALUE;
-        
-        cost1 = func(index-1,arr,dp)+Math.abs(arr[index]-arr[index-1]);
-        if(index>=2){
-            cost2 = func(index-2,arr,dp)+Math.abs(arr[index]-arr[index-2]);
-        }
-        return dp[index] = Math.min(cost1,cost2);
+        return dp[n] = Math.min(pick1,pick2);
     }
 }
 
